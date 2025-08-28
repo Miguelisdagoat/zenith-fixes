@@ -1,5 +1,6 @@
 # zenith-fixes
 Hello! this is a guide for zenith fixes
+# IF THESE FIXES DOES NOT WORK PLEASE CONTACT FURTHER SUPPORT BY OPENING A TICKET.
 
 
 ### Troubleshoot: Zenith Injection Issues
@@ -46,6 +47,8 @@ If you're having trouble injecting Zenith, please try the following steps in ord
 4. Try using zenith again.
 > Try opening and injecting zenith.
 
+
+
 ### Troubleshoot: Zenith crashing/injection not working
 
 1. Download Roblox
@@ -61,7 +64,7 @@ https://rdd.weao.gg/?channel=LIVE&binaryType=WindowsPlayer&version=version-7b14c
 4. Inject Zenith
 > Once Roblox is running, inject Zenith as usual.
 
-If you encounter any issues during this process, feel free to ask for help!
+### Still having issues? Please open a ticket by dming the modmail bot.
 
 
 ### Troubleshoot: Game crashing on execution
@@ -89,14 +92,29 @@ https://media.discordapp.net/attachments/1365386408214401177/1405616020638666764
 -# step 1 usually fixes it, Try that first
 
 
-### Still Need Help?
-
-Let us know if the issue persists. We’ll be happy to assist further!
 
 ### Roblox not opening
 
 1. Launch Roblox before Zenith and then inject
 
 2. Turn on `auto-attach` in Settings > **Other Settings** > Auto-Attach > and set Auto-Attach Delay to 0 or 1
+
+
+### Troubleshoot: Time sync error
+
+
+1. Open settings
+> Open the settings application on windows.
+
+
+2. Sync your time
+> Navigate to "time and date settings" and click SYNC NOW.
+
+
+3. Try using zenith
+> Try opening and injecting zenith.
+
+
+
 
 
