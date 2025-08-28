@@ -32,22 +32,19 @@ If you're having trouble injecting Zenith, please try the following steps in ord
 
 ### None of this worked? try restarting your pc and redoing every step.
 
+### Trouble shoot: zenith module failed to update, luau-lsp failed to download, initialization failed, failed to update component
 
+1. Download cloudflare warp.
+> Go to https://one.one.one.one/ and download the installer.
 
-**Hello!**
-Please follow the steps below to install and enable Cloudflare WARP. This can resolve issues like Zenith's website not loading [zenith.win](https://zenith.win), or Zenith's Module not updating properly:
+2. Run the installer
+> Run the cloudflare warp installer.
 
-1. Download and install the WARP client from: [warp](https://1.1.1.1/)
-2. Once installed, open the application.
-3. In your system tray (bottom-right corner of your desktop), click the arrow to expand hidden icons.
-4. Find and click the Cloudflare (cloud) icon.
-5. Enable **Cloudflare WARP** by toggling it on.
-6. Once enabled, relaunch Zenith and attempt to inject again.
+3. Enable cloudflare warp
+> Go to the ^ arrow/system tray, enable cloudflare warp.
 
-*note that if the website isn't loading use Edge Or Chrome Incognito/Private Window* 
-
-If you continue to experience issues, feel free to reach out for further assistance.
-2nd note: This can help resolved injection issues
+4. Try using zenith again.
+> Try opening and injecting zenith.
 
 ### Troubleshoot: Zenith crashing/injection not working
 
