@@ -53,7 +53,7 @@ If you continue to experience issues, feel free to reach out for further assista
 
 1. Download Roblox
 > Download the Roblox files from this link:
-https://rdd.weao.gg/?channel=LIVE&binaryType=WindowsPlayer&version=version-89b6c70d8f7f42ac
+https://rdd.weao.gg/?channel=LIVE&binaryType=WindowsPlayer&version=version-7b14ca0aa83149fa
 
 2. Extract the ZIP File
 > After downloading, extract the .zip file to a folder on your PC.
