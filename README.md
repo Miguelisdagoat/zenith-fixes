@@ -20,6 +20,22 @@ If you're having trouble injecting Zenith, please try the following steps in ord
 4. Try Injecting Twice
 > Inject once, wait for it to time out, then try to inject again.
 
+5. Reinstall Roblox
+> Delete the Roblox folder from this location: `C:\Users\YOURNAME\AppData\Local\Roblox`
+> -# Make sure to replace YourName with your actual Windows username.
+> Then reinstall Roblox from the official site: <https://roblox.com/download>.
+
+7. Use Bloxstrap
+> Try launching Roblox with Bloxstrap: <https://bloxstraplabs.com/>
+
+8. Use Fishtrap
+> Alternatively, use Fishtrap: <https://fishstrap.app/>
+
+9. Repair c++
+> https://aka.ms/vs/17/release/vc_redist.x64.exe download the installer run it and repair, try using zenith again.
+
+### None of this worked? try restarting your pc and redoing every step.
+
 
 ### None of this worked? try restarting your pc and redoing every step.
 
@@ -28,16 +44,29 @@ If you're having trouble injecting Zenith, please try the following steps in ord
 ### Troubleshoot: Game crashing on execution
 If you're having trouble Executing with zenith, please try the following steps in order:
 
+1. **Make exploit protection settings default**
+> Go into windows security -> app and browser control -> exploit protection settings, Turn them all to "use default (on)"
+NOT ON BY DEFAULT 
+use default (on)
 
-1. **Freshly reinstall roblox**
+^^^^^^^^^^^^^^^^
+
+2. **Freshly reinstall roblox**
 > Delete roblox from %localappdata% You can access localappdata by windows key + r %localappdata%
 
-2. **Disable real time protection**
+3. **Disable real time protection**
 > Turn off anti-tamper settings and real-time protection in your antivirus software.
 > Then, Reinstall zenith using the packaged .zip
 
-3. **Try using a different script**
+4. **Try using a different script**
 > Try executing something like infinite yield.
+
+-# step 1 usually fixes it, Try that first
+
+
+### Still Need Help?
+
+Let us know if the issue persists. We’ll be happy to assist further!
 
 
 
