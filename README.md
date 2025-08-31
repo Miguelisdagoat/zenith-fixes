@@ -2,6 +2,7 @@
 Hello! this is a guide for zenith fixes
 # IF THESE FIXES DOES NOT WORK PLEASE CONTACT FURTHER SUPPORT BY OPENING A TICKET.
 
+Note: do not open tickets talking about "my zenith keeps crashing on GAME NAME" This is an unfixable issue, You will have to wait until a developer fixes it, if your game crashes and you're injecting on the homescreen make a ticket we can fix that.
 
 ### Troubleshoot: Zenith Injection Issues
 
