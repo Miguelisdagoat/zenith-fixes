@@ -36,8 +36,22 @@ If you're having trouble injecting Zenith, please try the following steps in ord
 
 ### None of this worked? try restarting your pc and redoing every step.
 
+### Trouble shoot: zenith module failed to update, luau-lsp failed to download, initialization failed, failed to update component
 
-### None of this worked? try restarting your pc and redoing every step.
+1. Download cloudflare warp.
+> Go to <https://one.one.one.one/> and download the installer.
+
+2. Run the installer
+> Run the cloudflare warp installer.
+
+3. Enable cloudflare warp
+> Go to the ^ arrow/system tray, enable cloudflare warp.
+
+4. Try using zenith again.
+> Try opening and injecting zenith.
+
+
+### Zenith still not working? Contact further support by opening a support modmail!
 
 
 
