@@ -173,6 +173,13 @@ static bool Cleanup(HWND log) {
     return code == 0 || code == 1;
 }
 
+static bool Synctime(HWND log) {
+    AppendLog(log, L"Syncing time and date settings (w32tm /resync /rediscover)...");
+    DWORD code = RunProcessWait(L"powershell.exe", L"-NoProfile -Command w32tm /resync /rediscover");
+    AppendLog(log, L" w32tm completed with exit code " + std::to_wstring(code));
+    return code == 0 || code == 1;
+}
+
 static bool RunSFC(HWND log) {
     AppendLog(log, L"Running system file check, this may take long depending on your pc (sfc /scannow)...");
     DWORD code = RunProcessWait(L"powershell.exe", L"-NoProfile -Command sfc /scannow");
@@ -500,6 +507,9 @@ static void DoFixWorkflow(HWND hwnd, AppState* state) {
 
         PostLogAndProgress(hwnd, log, L"Running DISM...", 5);
         Cleanup(log);
+
+        PostLogAndProgress(hwnd, log, L"Syncing date and time...", 10);
+        Synctime(log);
 
         PostLogAndProgress(hwnd, log, L"Starting SFC...", 5);
         RunSFC(log);
