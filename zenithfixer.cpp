@@ -11,6 +11,7 @@
 #include <exdisp.h>
 #include <shobjidl.h>
 #include <commctrl.h>
+#include <set>
 #undef ShellExecute
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -209,26 +210,116 @@ static bool InstallOrRepairVCRedist(HWND log) {
     return code == 0;
 }
 
+static std::wstring GetDesktopPath() {
+    std::wstring path = GetKnownFolder(FOLDERID_Desktop);
+    if (!path.empty()) return path;
+    std::wstring user = GetEnv(L"USERPROFILE");
+    if (!user.empty()) {
+        std::filesystem::path p = std::filesystem::path(user) / L"Desktop";
+        return p.wstring();
+    }
+    return L"";
+}
+
+static std::wstring GetOneDrivePath() {
+    std::wstring od = GetEnv(L"OneDrive");
+    if (!od.empty()) return od;
+    std::wstring user = GetEnv(L"USERPROFILE");
+    if (!user.empty()) {
+        std::filesystem::path p = std::filesystem::path(user) / L"OneDrive";
+        if (std::filesystem::exists(p)) return p.wstring();
+    }
+    return L"";
+}
+
 static void AddZenithDefenderExclusions(HWND log) {
-    AppendLog(log, L"Scanning Downloads for 'zenith' folders to add Defender exclusions...");
+    AppendLog(log, L"Scanning Downloads, Desktop, and OneDrive for targets to add Defender exclusions...");
+
+    std::vector<std::wstring> roots;
     std::wstring downloads = GetDownloadsPath();
-    if (downloads.empty()) {
-        AppendLog(log, L" Unable to resolve Downloads folder.");
+    if (!downloads.empty()) roots.push_back(downloads);
+    std::wstring desktop = GetDesktopPath();
+    if (!desktop.empty()) roots.push_back(desktop);
+    std::wstring onedrive = GetOneDrivePath();
+    if (!onedrive.empty()) roots.push_back(onedrive);
+
+    if (roots.empty()) {
+        AppendLog(log, L" Unable to resolve any of Downloads, Desktop, or OneDrive.");
         return;
     }
-    try {
-        for (const auto& entry : std::filesystem::directory_iterator(downloads)) {
-            if (!entry.is_directory()) continue;
-            std::wstring name = entry.path().filename().wstring();
-            if (CaseInsensitiveEquals(name, L"zenith")) {
-                std::wstring path = entry.path().wstring();
-                AppendLog(log, L" Adding Defender exclusion: " + path);
-                std::wstring cmd = L"-NoProfile -Command Add-MpPreference -ExclusionPath '" + path + L"'";
-                RunProcessWait(L"powershell.exe", cmd, true);
+
+    std::vector<std::wstring> targets = { L"Zenith.exe", L"luau-lsp", L"Zenith-Module.dll" };
+    std::set<std::wstring> addedExclusions;
+
+    for (const auto& root : roots) {
+        try {
+            std::filesystem::recursive_directory_iterator it(root, std::filesystem::directory_options::skip_permission_denied);
+            std::filesystem::recursive_directory_iterator end;
+            for (; it != end; ++it) {
+                std::error_code ec;
+                const auto& entry = *it;
+                std::wstring name = entry.path().filename().wstring();
+                std::wstring lname = name;
+                std::transform(lname.begin(), lname.end(), lname.begin(), ::towlower);
+
+                bool match = false;
+                for (const auto& t : targets) {
+                    std::wstring lt = t;
+                    std::transform(lt.begin(), lt.end(), lt.begin(), ::towlower);
+                    if (lt == L"luau-lsp") {
+                        if (lname == lt || ContainsCaseInsensitive(name, lt)) { match = true; break; }
+                    } else {
+                        if (CaseInsensitiveEquals(name, t) || ContainsCaseInsensitive(name, t)) { match = true; break; }
+                    }
+                }
+                if (!match) continue;
+
+                std::wstring foundPath = entry.path().wstring();
+
+
+                std::wstring exclusionPath = foundPath;
+                if (addedExclusions.find(exclusionPath) == addedExclusions.end()) {
+                    AppendLog(log, L" Adding Defender exclusion: " + exclusionPath);
+                    std::wstring cmd = L"-NoProfile -Command Add-MpPreference -ExclusionPath '" + exclusionPath + L"'";
+                    RunProcessWait(L"powershell.exe", cmd, true);
+                    addedExclusions.insert(exclusionPath);
+                }
+
+
+                std::filesystem::path parent = entry.path().parent_path();
+                if (!parent.empty()) {
+                    std::wstring parentPath = parent.wstring();
+                    if (addedExclusions.find(parentPath) == addedExclusions.end()) {
+                        AppendLog(log, L" Adding Defender exclusion for parent folder: " + parentPath);
+                        std::wstring cmdFolder = L"-NoProfile -Command Add-MpPreference -ExclusionPath '" + parentPath + L"'";
+                        RunProcessWait(L"powershell.exe", cmdFolder, true);
+                        addedExclusions.insert(parentPath);
+                    }
+                }
+
+
+                if (entry.is_directory(ec)) {
+                    it.disable_recursion_pending();
+                }
             }
+        } catch (const std::exception& ex) {
+            std::wstring what;
+            try {
+                std::string s = ex.what();
+                what.assign(s.begin(), s.end());
+            } catch (...) {
+                what = L"exception";
+            }
+            AppendLog(log, L" Error scanning: " + std::wstring(what.begin(), what.end()));
+        } catch (...) {
+            AppendLog(log, L" Unknown error scanning: " + root);
         }
-    } catch (...) {
-        AppendLog(log, L" Error scanning Downloads.");
+    }
+
+    if (addedExclusions.empty()) {
+        AppendLog(log, L"No matching files or folders found to add exclusions for.");
+    } else {
+        AppendLog(log, L"Finished adding Defender exclusions.");
     }
 }
 
