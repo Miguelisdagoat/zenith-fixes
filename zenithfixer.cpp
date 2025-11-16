@@ -423,7 +423,6 @@ static void RestoreRobloxData(HWND log) {
     }
 }
 
-// New: terminate Roblox-related processes by name (case-insensitive)
 static void KillRobloxProcesses(HWND log) {
     AppendLog(log, L"Closing running Roblox processes...");
 
@@ -470,7 +469,7 @@ static void KillRobloxProcesses(HWND log) {
         return;
     }
 
-    // Attempt graceful close via WM_CLOSE on top-level windows first
+
     for (DWORD pid : toKill) {
         EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
             DWORD pid = 0;
@@ -483,10 +482,10 @@ static void KillRobloxProcesses(HWND log) {
         }, (LPARAM)pid);
     }
 
-    // Wait a short moment for graceful exit
+
     std::this_thread::sleep_for(std::chrono::milliseconds(700));
 
-    // Force-terminate remaining matching processes
+
     for (DWORD pid : toKill) {
         HANDLE h = OpenProcess(PROCESS_TERMINATE | PROCESS_QUERY_LIMITED_INFORMATION | SYNCHRONIZE, FALSE, pid);
         if (!h) continue;
@@ -756,7 +755,7 @@ static void DoFixWorkflow(HWND hwnd, AppState* state) {
         PostLogAndProgress(hwnd, log, L"Moving Versions to LocalAppData...", 85);
         MoveRobloxVersionsToLocalAppData(log);
 
-        // Ensure Roblox processes are terminated before attempting restore
+        
         PostLogAndProgress(hwnd, log, L"Closing Roblox processes before restore...", 90);
         KillRobloxProcesses(log);
 
@@ -863,4 +862,5 @@ int APIENTRY wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int nCmdShow) {
         DispatchMessageW(&msg);
     }
     return (int)msg.wParam;
+
 }
